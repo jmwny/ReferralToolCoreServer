@@ -22,7 +22,7 @@ namespace ReferralToolCoreServer.Controllers
     [ApiController]
     public class ReferralItemController : ControllerBase
     {
-        private void UpdateMagick()
+        private static void UpdateMagick()
         {
             var connectionStringBuilder = new SQLiteConnectionStringBuilder
             {
@@ -35,7 +35,7 @@ namespace ReferralToolCoreServer.Controllers
             string DBCommand = "UPDATE Magick SET Number = @number WHERE ID = 1";
             using (var sqlCommand = new SQLiteCommand(DBCommand, DBConnection))
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 sqlCommand.Parameters.AddWithValue("@number", rnd.Next(1, 5000));
 
                 try
@@ -52,7 +52,7 @@ namespace ReferralToolCoreServer.Controllers
             System.Diagnostics.Trace.WriteLine("[STATIC UTILITY] UpdateMagick => DBUpdateMagick() => End");
         }
 
-        private void AddHistoryItem(long? id, ReferralItem referralItem)
+        private static void AddHistoryItem(long? id, ReferralItem referralItem)
         {
             var connectionStringBuilder = new SQLiteConnectionStringBuilder
             {
@@ -188,7 +188,7 @@ namespace ReferralToolCoreServer.Controllers
         [HttpGet]
         public List<HistoryData> Get([FromQuery] string id)
         {
-            List<HistoryData> historyList = new List<HistoryData>();
+            List<HistoryData> historyList = new();
             var connectionStringBuilder = new SQLiteConnectionStringBuilder
             {
                 DataSource = "ReferralTool.db"
@@ -206,7 +206,7 @@ namespace ReferralToolCoreServer.Controllers
                     using SQLiteDataReader rdr = sqlCommand.ExecuteReader();
                     while (rdr.Read())
                     {
-                        HistoryData historyItem = new HistoryData
+                        HistoryData historyItem = new()
                         {
                             EditTime = rdr.GetString(1),
                             Name = rdr.GetString(2),
